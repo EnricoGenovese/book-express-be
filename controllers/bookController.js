@@ -58,11 +58,16 @@ function store(req, res) {
 
 // Agiunta dei commenti al singolo libro
 function storeReview(req, res) {
+    // Recuperiamo l'id:
     const { id } = req.params
+    // Recuperiamo il body:
     const { text, name, vote } = req.body
+    // Prepariamo la query:
     const sql = "INSERT INTO reviews (text, name, vote, book_id) VALUES (?, ?, ?, ?)"
+    
+    // Eseguo la query:
     connection.query(sql, [text, name, vote, id], (err, results) => {
-        if (err) return res.status(500).json({ error: "Error server" });
+        if (err) return res.status(500).json({ error: "Query non trovata nel database" });
         res.status(201).json({ message: "Review added", id: results.insertId });
     })
 }
