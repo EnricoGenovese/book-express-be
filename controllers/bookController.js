@@ -56,6 +56,18 @@ function show(req, res) {
 function store(req, res) {
 }
 
+function storeReview(req, res) {
+    const { id } = req.params
+    const { text, name, vote } = req.body
+
+    const sql = "INSERT INTO reviews (text, name, vote, book_id) VALUES (?, ?, ?, ?)"
+
+    connection.query(sql, [text, name, vote, id], (err, results) => {
+        if (err) return res.status(500).json({ error: "Error server" });
+        res.status(201).json({ message: "Review added", id: results.insertId });
+    })
+}
+
 function update(req, res) {
 }
 function destroy(req, res) {
@@ -69,4 +81,4 @@ function destroy(req, res) {
     });
 }
 
-export { index, show, store, update, destroy };
+export { index, show, store, storeReview, update, destroy };
